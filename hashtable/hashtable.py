@@ -95,7 +95,7 @@ class HashTable:
         Implement this.
         """
         index = self.hash_index(key)
-        if index != 0:
+        if index is not None:
             return self.storage[index]
         else:
             return None

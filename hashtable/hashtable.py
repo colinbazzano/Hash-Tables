@@ -109,6 +109,11 @@ class HashTable:
 
         Implement this.
         """
+        # if len(self.storage) == self.capacity:
+        #     # double the list from its current amount
+        #     self.storage = [0 * (len(self.storage) * 2)]
+        #     self.capacity = self.storage
+        #     return self.storage
 
 
 if __name__ == "__main__":

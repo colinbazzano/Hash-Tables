@@ -131,6 +131,11 @@ class HashTable:
 
         Implement this.
         """
+        # temp_storage = self.storage
+        # self.storage = [None] * (self.capacity*2)
+        # for item in temp_storage:
+        #     if item is not None:
+        #         self.put(item[0], item[1])
 
 
 if __name__ == "__main__":

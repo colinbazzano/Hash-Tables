@@ -122,8 +122,6 @@ class HashTable:
                     node = node.next  # keep going
             if node.key == key:
                 return node.value  # found it (first item)
-            else:
-                return None
         return None
 
     def resize(self):

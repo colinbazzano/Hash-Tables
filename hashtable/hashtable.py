@@ -19,7 +19,7 @@ class HashTable:
 
     def __init__(self, capacity):
         self.capacity = capacity
-        self.storage = [0] * capacity
+        self.storage = [None] * capacity
 
     def fnv1(self, key):
         """
@@ -60,6 +60,24 @@ class HashTable:
 
         Implement this.
         """
+        index = self.hash_index(key)  # find the hash index
+        node = self.storage[index]
+        if node is None:  # it's free real estate! https://knowyourmeme.com/memes/its-free-real-estate
+            self.storage[index] = HashTableEntry(key, value)
+        else:
+            if node.key != key:  # if we aren't overwriting
+                while node.next is not None:  # while we can keep going to the right
+                    if node.key != key:  # if it, again, isn't overwriting
+                        node = node.next  # keep going
+                    else:
+                        node.value = value  # assign the value
+                if node.key == key:  # we found it, we are overwriting
+                    node.value = value
+                else:
+                    # we are attaching it to the end
+                    node.next = HashTableEntry(key, value)
+            else:
+                node.value = value
 
     def delete(self, key):
         """
@@ -78,6 +96,19 @@ class HashTable:
 
         Implement this.
         """
+        index = self.hash_index(key)
+        node = self.storage[index]
+        if node is not None:  # while we have items to search through
+            while node.next is not None:  # while we are not at the end
+                if node.key == key:  # found it!
+                    return node.value  # so, return it!
+                else:
+                    node = node.next  # keep going
+            if node.key == key:
+                return node.value  # found it (first item)
+            else:
+                return None
+        return None
 
     def resize(self):
         """

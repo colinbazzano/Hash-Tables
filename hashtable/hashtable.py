@@ -87,6 +87,22 @@ class HashTable:
 
         Implement this.
         """
+        if self.get(key) is not None:  # if we have the item we want to delete
+            index = self.hash_index(key)
+            node = self.storage[index]
+            while node.next is not None:  # while we can continue to search
+                if node.key == key:  # we have found it, so we skip over it
+                    node.key = node.next.key
+                    node.value = node.next.value
+                    node.next = node.next.next
+                    return
+                else:
+                    node = node.next  # keep searching
+            if node.key == key:  # the last item
+                node.key = None
+                node.value = None
+                node.next = None
+        return None
 
     def get(self, key):
         """

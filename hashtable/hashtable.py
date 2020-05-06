@@ -20,6 +20,7 @@ class HashTable:
     def __init__(self, capacity):
         self.capacity = capacity
         self.storage = [None] * capacity
+        self.count = 0
 
     def fnv1(self, key):
         """
@@ -63,7 +64,15 @@ class HashTable:
         index = self.hash_index(key)  # find the hash index
         node = self.storage[index]
         if node is None:  # it's free real estate! https://knowyourmeme.com/memes/its-free-real-estate
-            self.storage[index] = HashTableEntry(key, value)
+            if self.count < (self.capacity * 0.7):  # no need for resizing
+                self.storage[index] = HashTableEntry(key, value)
+                self.count += 1
+                # print("count from free block", self.count)
+            else:  # we have reached capacity
+                print("resize triggered")
+                self.resize((self.capacity * 2))
+                self.storage[index] = HashTableEntry(key, value)
+                self.count += 1
         else:
             if node.key != key:  # if we aren't overwriting
                 while node.next is not None:  # while we can keep going to the right
@@ -76,6 +85,8 @@ class HashTable:
                 else:
                     # we are attaching it to the end
                     node.next = HashTableEntry(key, value)
+                    self.count += 1
+                    # print("count from else block", self.count)
             else:
                 node.value = value
 
